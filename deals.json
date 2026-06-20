@@ -1,0 +1,14 @@
+[
+  {
+    "title": "Free Krispy Kreme Donut",
+    "description": "One free donut no purchase required",
+    "location": "Nationwide",
+    "source_url": "https://krispykreme.com",
+    "bite_score": 100,
+    "verified": true,
+    "event_type": "food_holiday",
+    "event_start_date": "2026-06-05",
+    "event_end_date": "2026-06-05",
+    "created_at": "2026-06-05T08:00:00Z"
+  }
+]
