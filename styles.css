@@ -136,16 +136,34 @@ color:black;
 
 .card{
 display:flex;
-gap:20px;
+align-items:center;
+gap:24px;
 background:var(--card);
-padding:24px;
-border-radius:22px;
-margin-bottom:16px;
+padding:28px;
+border-radius:24px;
+margin-bottom:18px;
+border-left:6px solid var(--green);
+min-height:160px;
 }
 
 .scoreWrap{
-width:120px;
-height:120px;
+width:130px;
+height:130px;
+flex-shrink:0;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.scoreNumber{
+    fill:white;
+    font-size:30px;
+    font-weight:900;
+    font-family:
+        SFMono-Regular,
+        Consolas,
+        Monaco,
+        monospace;
 }
 
 .cardTitle{
