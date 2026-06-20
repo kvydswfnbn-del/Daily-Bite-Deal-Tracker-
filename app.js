@@ -228,26 +228,6 @@ onclick="selectDay('${date}')">
 
 document.getElementById("calendarGrid").innerHTML=html;
 
-renderHolidayList();
-}
-
-function renderHolidayList(){
-// Filter out everything except the holiday that matches the selected date
-const filteredHolidays = foodDays.filter(h => h.date === selectedCalendarDate);
-
-document.getElementById("holidayList").innerHTML=
-filteredHolidays.map(h=>`
-<div class="holidayRow">
-<div class="holidayTitle">
-${h.title}
-</div>
-<div>
-${h.date}
-</div>
-</div>
-`).join("");
-}
-
 function selectDay(date){
 
 selectedCalendarDate=date;
