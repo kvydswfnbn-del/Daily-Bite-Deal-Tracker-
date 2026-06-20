@@ -6,14 +6,19 @@
 <title>DailyBite</title>
 
 <style>
-:root {
-  --bg: #0D1117;
-  --card: #161B22;
-  --border: #30363D;
-  --text: #E6EDF3;
-  --muted: #8B949E;
+/* =========================
+   GLOBAL THEME
+========================= */
 
-  --gold: #FFD700;
+:root {
+  --bg: #0B0F14;
+  --panel: #111827;
+  --card: #0F172A;
+  --border: #1F2937;
+
+  --text: #F8FAFC;
+  --muted: #94A3B8;
+
   --green: #22C55E;
   --yellow: #FACC15;
   --red: #EF4444;
@@ -21,156 +26,359 @@
 
 body {
   margin: 0;
-  font-family: system-ui, sans-serif;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
   background: var(--bg);
   color: var(--text);
 }
 
-/* HEADER */
+/* =========================
+   HEADER
+========================= */
+
 header {
-  padding: 14px;
-  font-weight: 700;
+  padding: 14px 14px 8px;
   border-bottom: 1px solid var(--border);
 }
 
-/* PAGES */
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.subtitle {
+  font-size: 11px;
+  color: var(--muted);
+  font-family: monospace;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.live-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  padding: 2px 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
 .page {
   display: none;
   padding: 12px;
-  padding-bottom: 80px;
+  padding-bottom: 90px;
 }
 
 .page.active {
   display: block;
 }
 
-/* CARD */
+/* =========================
+   FILTER PILLS
+========================= */
+
+.filters {
+  display: flex;
+  overflow-x: auto;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.pill {
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.pill.active {
+  background: white;
+  color: black;
+}
+
+/* =========================
+   DEAL CARD
+========================= */
+
 .card {
+  display: flex;
+  gap: 12px;
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 12px;
   margin-bottom: 10px;
+  position: relative;
 }
 
-.title {
-  font-weight: 600;
+.card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  background: var(--green);
+  border-radius: 3px;
 }
 
-.meta {
+/* SCORE RING */
+.score {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* CARD CONTENT */
+.card-content {
+  flex: 1;
+}
+
+.card-title {
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.card-desc {
   font-size: 12px;
   color: var(--muted);
   margin-top: 4px;
 }
 
-/* SCORE */
-.score {
-  font-size: 26px;
-  font-weight: 800;
+.meta {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 6px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
 }
 
-.gold { color: #FFD700; }
-.green { color: #22C55E; }
-.yellow { color: #FACC15; }
-.red { color: #EF4444; }
+.badge {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
 
-/* CALENDAR */
+.badge.green {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+/* BUTTON */
+.source-btn {
+  margin-top: 10px;
+  font-size: 12px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  text-align: center;
+  color: var(--text);
+  text-decoration: none;
+  display: block;
+}
+
+/* =========================
+   CALENDAR
+========================= */
+
+.calendar-header {
+  margin-bottom: 10px;
+}
+
+.calendar-header h3 {
+  margin: 0;
+}
+
+.calendar-header small {
+  color: var(--muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
 .day {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 12px;
-  margin-bottom: 10px;
-  cursor: pointer;
+  border-radius: 10px;
+  padding: 6px;
+  text-align: center;
+  min-height: 42px;
 }
 
-.hidden { display: none; }
+.day-num {
+  font-size: 12px;
+}
 
-/* NAV */
+.dot-small {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin: 4px auto 0;
+  background: var(--green);
+}
+
+/* MONTH LIST */
+.month-list {
+  margin-top: 12px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+
+.circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+/* =========================
+   NAV
+========================= */
+
 .nav {
   position: fixed;
   bottom: 0;
   width: 100%;
   display: flex;
-  background: #0B0F14;
+  background: rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(10px);
   border-top: 1px solid var(--border);
 }
 
 .nav button {
   flex: 1;
-  padding: 14px;
+  padding: 12px;
   background: none;
   border: none;
   color: var(--muted);
+  font-size: 12px;
 }
 
 .nav button.active {
   color: var(--text);
+  border-top: 2px solid var(--green);
 }
-
-.calendar-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 6px;
-  margin-top: 10px;
-}
-
-.day-cell {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  min-height: 60px;
-  padding: 6px;
-  font-size: 11px;
-  cursor: pointer;
-}
-
-.day-num {
-  font-weight: 700;
-  font-size: 12px;
-}
-
-.badge {
-  margin-top: 4px;
-  font-size: 10px;
-  color: var(--green);
-}
-
 </style>
 </head>
 
 <body>
 
-<header>DailyBite</header>
+<header>
+  <div class="header-top">
+    <div>←</div>
+    <div class="title">DailyBite</div>
+    <div>⚙️ ⋯</div>
+  </div>
 
-<!-- PAGE 1: TODAY -->
-<div id="page-deals" class="page active">
-  <h3>Today’s Deals</h3>
-  <div id="todayDeals"></div>
+  <div class="subtitle">
+    Food opportunity intelligence
+    <div class="live-badge">
+      <div class="dot"></div> LIVE
+    </div>
+  </div>
+</header>
+
+<!-- =========================
+     DEALS
+========================= -->
+<div id="deals" class="page active">
+
+  <div class="filters">
+    <div class="pill active">All</div>
+    <div class="pill">100</div>
+    <div class="pill">90+</div>
+    <div class="pill">70+</div>
+    <div class="pill">Free Food</div>
+  </div>
+
+  <div id="dealList"></div>
 </div>
 
-<!-- PAGE 2: CALENDAR -->
-<div id="page-calendar" class="page">
-  <h3>June Food Calendar</h3>
+<!-- =========================
+     CALENDAR
+========================= -->
+<div id="calendar" class="page">
 
-  <div id="calendarGrid"></div>
+  <div class="calendar-header">
+    <h3>Food Calendar</h3>
+    <small>June 2026</small>
+  </div>
 
-  <div id="calendarDetail" style="margin-top:12px"></div>
+  <div class="grid" id="calendarGrid"></div>
+
+  <div class="month-list" id="monthList"></div>
 </div>
 
-<!-- PAGE 3: SETTINGS -->
-<div id="page-settings" class="page">
-  <h3>Settings</h3>
-  <div class="card">
-    Placeholder settings
+<!-- =========================
+     SETTINGS
+========================= -->
+<div id="settings" class="page">
+  <div class="card-content">
+    Settings Placeholder
   </div>
 </div>
 
 <!-- NAV -->
 <div class="nav">
-  <button onclick="go('deals')" class="active">Deals</button>
-  <button onclick="go('calendar')">Calendar</button>
-  <button onclick="go('settings')">Settings</button>
+  <button onclick="nav('deals')" class="active">Deals</button>
+  <button onclick="nav('calendar')">Calendar</button>
+  <button onclick="nav('settings')">Settings</button>
 </div>
 
 <script>
@@ -182,155 +390,86 @@ let foodDays = [];
 Promise.all([
   fetch('./deals.json').then(r => r.json()),
   fetch('./food_days.json').then(r => r.json())
-]).then(([d, f]) => {
+]).then(([d,f]) => {
   deals = d;
   foodDays = f;
 
-  renderToday();
+  renderDeals();
   renderCalendar();
-
-  // default selected date = TODAY (June 5 test)
-  selectDate("2026-06-05");
+  renderMonthList();
 });
 
-/* SCORE COLOR */
-function color(score){
-  if(score === 100) return "gold";
-  if(score >= 90) return "green";
-  if(score >= 70) return "yellow";
-  return "red";
+/* NAV */
+function nav(page){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(page).classList.add("active");
+
+  document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
+  event.target.classList.add("active");
 }
 
-/* PAGE NAV */
-function go(page){
+/* DEALS */
+function renderDeals(){
+  const el = document.getElementById("dealList");
 
-  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-  document.querySelectorAll(".nav button").forEach(b => b.classList.remove("active"));
+  el.innerHTML = deals.map(d => `
+    <div class="card">
 
-  if(page === "deals"){
-    document.getElementById("page-deals").classList.add("active");
-    document.querySelectorAll(".nav button")[0].classList.add("active");
-  }
+      <div class="score">${d.bite_score}</div>
 
-  if(page === "calendar"){
-    document.getElementById("page-calendar").classList.add("active");
-    document.querySelectorAll(".nav button")[1].classList.add("active");
-  }
+      <div class="card-content">
+        <div class="card-title">${d.title}</div>
+        <div class="card-desc">${d.description}</div>
 
-  if(page === "settings"){
-    document.getElementById("page-settings").classList.add("active");
-    document.querySelectorAll(".nav button")[2].classList.add("active");
-  }
-}
+        <div class="meta">
+          📍 ${d.location}
+          ${d.verified ? `<span class="badge green">VERIFIED</span>` : `<span class="badge">UNVERIFIED</span>`}
+        </div>
 
-/* PAGE 1: TODAY */
-function renderToday(){
-
-  const today = "2026-06-05";
-
-  const todayDeals = deals.filter(d =>
-    d.event_start_date === today
-  );
-
-  const container = document.getElementById("todayDeals");
-
-  if(todayDeals.length === 0){
-    container.innerHTML = `<div class="card">No deals today</div>`;
-    return;
-  }
-
-  container.innerHTML = todayDeals
-    .sort((a,b)=>b.bite_score-a.bite_score)
-    .map(d => `
-      <div class="card">
-        <div class="${color(d.bite_score)} score">${d.bite_score}</div>
-        <div class="title">${d.title}</div>
-        <div class="meta">${d.description}</div>
+        <a class="source-btn" href="${d.source_url}" target="_blank">
+          View Source →
+        </a>
       </div>
-    `).join("");
+
+    </div>
+  `).join("");
 }
 
-/* PAGE 2: CALENDAR */
+/* CALENDAR GRID */
 function renderCalendar(){
 
-  const container = document.getElementById("calendarGrid");
+  const grid = document.getElementById("calendarGrid");
 
-  // June has 30 days
-  const daysInJune = 30;
+  let html = "";
 
-  let html = `<div class="calendar-grid">`;
+  for(let i=1;i<=30;i++){
 
-  for(let day = 1; day <= daysInJune; day++){
-
-    const dateStr = `2026-06-${String(day).padStart(2,'0')}`;
-
-    const holiday = foodDays.find(d => d.date === dateStr);
-
-    const dealsForDay = deals.filter(d =>
-      d.event_type === "food_holiday" &&
-      d.event_start_date === dateStr
-    );
+    const date = `2026-06-${String(i).padStart(2,'0')}`;
+    const hasDeal = deals.find(d => d.event_start_date === date);
 
     html += `
-      <div class="day-cell" onclick="selectDate('${dateStr}')">
-        <div class="day-num">${day}</div>
-
-        ${
-          holiday
-            ? `<div class="badge">🎉 ${holiday.title}</div>`
-            : ""
-        }
-
-        ${
-          dealsForDay.length > 0
-            ? `<div class="badge">${dealsForDay.length} deals</div>`
-            : ""
-        }
+      <div class="day">
+        <div class="day-num">${i}</div>
+        ${hasDeal ? `<div class="dot-small"></div>` : ""}
       </div>
     `;
   }
 
-  html += `</div>`;
-
-  container.innerHTML = html;
+  grid.innerHTML = html;
 }
 
-/* CALENDAR DETAIL VIEW */
-function selectDate(date){
+/* MONTH LIST */
+function renderMonthList(){
 
-  const day = foodDays.find(d => d.date === date);
+  const el = document.getElementById("monthList");
 
-  const matchedDeals = deals.filter(d =>
-    d.event_type === "food_holiday" &&
-    d.event_start_date === date
-  );
-
-  const best = matchedDeals.length
-    ? Math.max(...matchedDeals.map(d => d.bite_score))
-    : null;
-
-  const container = document.getElementById("calendarDetail");
-
-  container.innerHTML = `
-    <div class="card">
-      <div style="font-weight:700">${day?.title || "Unknown Day"}</div>
-      <div class="meta">${date}</div>
+  el.innerHTML = foodDays.map(d => `
+    <div class="row">
+      <div class="circle">${new Date(d.date).getDate()}</div>
+      <div>${d.title}</div>
+      <div class="circle">●</div>
     </div>
-
-    <h4>Deals</h4>
-
-    ${
-      matchedDeals.length === 0
-        ? `<div class="card">No verified food holiday deals yet</div>`
-        : matchedDeals.map(d => `
-            <div class="card">
-              <div class="${color(d.bite_score)} score">${d.bite_score}</div>
-              <div class="title">${d.title}</div>
-              <div class="meta">${d.description}</div>
-            </div>
-          `).join("")
-    }
-  `;
+  `).join("");
 }
 
 </script>
