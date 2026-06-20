@@ -244,6 +244,92 @@ function switchTab(tab) {
     document.querySelectorAll(".nav button")[2].classList.add("active");
   }
 }
+
+// Calendar script
+function buildCalendar() {
+  const calendar = document.getElementById("calendarView");
+
+  const grouped = {};
+
+  deals.forEach(d => {
+    const date = d.event_start_date;
+    if (!grouped[date]) grouped[date] = [];
+    grouped[date].push(d);
+  });
+
+  const sortedDates = Object.keys(grouped).sort();
+
+  calendar.innerHTML = `
+    <div style="padding:12px">
+      <h3 style="margin-bottom:6px">Food Calendar</h3>
+      <p style="color:#8B949E;font-size:12px;margin-bottom:12px">
+        Grouped by food opportunity date
+      </p>
+
+      ${sortedDates.map(date => {
+        const dayDeals = grouped[date];
+        const bestScore = Math.max(...dayDeals.map(d => d.bite_score));
+
+        return `
+          <div onclick="toggleDay('${date}')"
+               style="
+                 margin-bottom:10px;
+                 padding:12px;
+                 background:#161B22;
+                 border:1px solid #30363D;
+                 border-radius:12px;
+                 cursor:pointer;
+               ">
+
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <div style="font-weight:600">${date}</div>
+                <div style="font-size:12px;color:#8B949E">
+                  ${dayDeals.length} deal(s)
+                </div>
+              </div>
+
+              <div style="
+                font-size:22px;
+                font-weight:800;
+                color:${scoreColor(bestScore)};
+              ">
+                ${bestScore}
+              </div>
+            </div>
+
+            <div id="day-${date}" style="display:none;margin-top:10px">
+              ${dayDeals.map(d => `
+                <div style="margin-top:8px;padding-top:8px;border-top:1px solid #30363D">
+                  <div style="font-weight:600">${d.title}</div>
+                  <div style="font-size:12px;color:#8B949E">${d.description}</div>
+                  <div style="font-size:12px;color:#8B949E">
+                    Score: ${d.bite_score}
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+
+          </div>
+        `;
+      }).join("")}
+    </div>
+  `;
+}
+
+function toggleDay(date) {
+  const el = document.getElementById("day-" + date);
+  if (!el) return;
+  el.style.display = el.style.display === "none" ? "block" : "none";
+}
+
+function scoreColor(score) {
+  if (score === 100) return "#FFD700";
+  if (score >= 90) return "#22C55E";
+  if (score >= 70) return "#FACC15";
+  return "#EF4444";
+}
+
 </script>
 
 </body>
