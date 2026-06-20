@@ -16,8 +16,7 @@
   --green:#22C55E;
   --yellow:#F59E0B;
   --red:#EF4444;
-  --gold1:#FDE68A;
-  --gold2:#F59E0B;
+  --gold:#F5C542;
   --blue:#3B82F6;
 }
 
@@ -28,104 +27,182 @@ body{
   color:var(--text);
 }
 
-header{
-  padding:12px;
+/* ================= HEADER ================= */
+
+.header{
+  padding:14px;
   border-bottom:1px solid var(--border);
 }
 
-.row{
+.brand{
+  font-size:18px;
+  font-weight:800;
+}
+
+.subrow{
   display:flex;
   align-items:center;
   justify-content:space-between;
-}
-
-.small{
+  margin-top:4px;
   color:var(--muted);
   font-size:12px;
 }
 
-.page{display:none;padding:12px;padding-bottom:90px;}
-.page.active{display:block}
+.scanner{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:11px;
+  color:var(--green);
+}
 
-/* NAV */
+.scan-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--green);
+  animation:pulse 1.2s infinite;
+}
+
+@keyframes pulse{
+  0%{opacity:1}
+  50%{opacity:0.2}
+  100%{opacity:1}
+}
+
+/* ================= NAV ================= */
+
 .nav{
-  position:fixed;bottom:0;width:100%;
+  position:fixed;
+  bottom:0;
+  width:100%;
   display:flex;
   background:#0f172acc;
   backdrop-filter:blur(10px);
   border-top:1px solid var(--border);
-}
-.nav button{
-  flex:1;padding:12px;
-  background:none;border:none;
-  color:var(--muted);
-}
-.nav button.active{
-  color:white;
-  border-top:2px solid var(--green);
+  padding:6px 0;
 }
 
-/* DATE NAV */
-.dateNav{
+.nav button{
+  flex:1;
+  background:none;
+  border:none;
+  color:var(--muted);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:2px;
+  font-size:11px;
+}
+
+.nav button.active{
+  color:var(--text);
+  opacity:1;
+  transform:scale(1.05);
+}
+
+/* ICONS */
+.icon{font-size:16px}
+
+/* ================= LAYOUT ================= */
+
+.page{display:none;padding:12px;padding-bottom:90px;}
+.page.active{display:block}
+
+/* ================= DEAL CONTROLS ================= */
+
+.controls{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:10px;
-  font-weight:600;
+  margin:10px 0;
 }
 
-/* FILTERS */
+.dateNav{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.arrow{
+  font-size:20px;
+  cursor:pointer;
+  padding:4px 10px;
+  border:1px solid var(--border);
+  border-radius:10px;
+}
+
+.toggle{
+  display:flex;
+  border:1px solid var(--border);
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.toggle div{
+  padding:6px 10px;
+  font-size:12px;
+  color:var(--muted);
+}
+
+.toggle .active{
+  background:white;
+  color:black;
+}
+
+/* ================= FILTERS ================= */
+
 .filters{
   display:flex;
-  gap:8px;
   overflow-x:auto;
-  padding:8px 0;
+  gap:8px;
+  margin-bottom:10px;
 }
+
 .pill{
   padding:6px 10px;
-  border:1px solid var(--border);
   border-radius:999px;
-  color:var(--muted);
+  border:1px solid var(--border);
   font-size:12px;
+  color:var(--muted);
 }
+
+.pill.gold{border-color:var(--gold)}
+.pill.green{border-color:var(--green)}
+.pill.orange{border-color:var(--yellow)}
+.pill.red{border-color:var(--red)}
+
 .pill.active{
   background:white;
   color:black;
 }
 
-/* CARD */
+/* ================= SUPER CARD ================= */
+
 .card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:12px;
-  margin-bottom:10px;
   display:flex;
   gap:12px;
-  position:relative;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:12px;
 }
 
-.card::before{
-  content:"";
-  width:3px;
-  position:absolute;
-  left:0;
-  top:10px;
-  bottom:10px;
-  border-radius:3px;
+.scoreWrap{
+  width:64px;
+  height:64px;
 }
 
-.score{
-  width:54px;height:54px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:800;
-  border:2px solid var(--green);
+.scoreText{
+  font-size:14px;
+  font-weight:900;
+  font-family:monospace;
+  text-anchor:middle;
+  dominant-baseline:middle;
+  fill:white;
 }
 
-/* CALENDAR */
+/* ================= CALENDAR ================= */
+
 .calendarHeader{
   display:flex;
   justify-content:space-between;
@@ -139,8 +216,13 @@ header{
   gap:6px;
 }
 
+.weekday{
+  text-align:center;
+  font-size:10px;
+  color:var(--muted);
+}
+
 .day{
-  width:100%;
   aspect-ratio:1;
   border-radius:50%;
   background:var(--card);
@@ -149,27 +231,35 @@ header{
   flex-direction:column;
   justify-content:center;
   align-items:center;
-  font-size:12px;
+  position:relative;
 }
 
-.day.active{
+.day.selected{
   box-shadow:0 0 0 2px var(--blue);
 }
 
-.dot{
-  width:6px;height:6px;border-radius:50%;
-  background:var(--green);
-  margin-top:3px;
+.day.gold{
+  border-color:var(--gold);
+  background:rgba(245,197,66,0.1);
 }
 
-/* DETAIL */
+.todayLabel{
+  font-size:8px;
+  color:var(--blue);
+  position:absolute;
+  top:4px;
+}
+
+/* ================= DETAIL ================= */
+
 .panel{
   margin-top:10px;
-  padding:10px;
+  padding:12px;
   border:1px solid var(--border);
   border-radius:12px;
   background:var(--card);
 }
+
 </style>
 </head>
 
@@ -178,18 +268,27 @@ header{
 <!-- ================= DEALS ================= -->
 <div id="deals" class="page active">
 
-<header>
-  <div class="row">
-    <div onclick="shiftDate(-1)">←</div>
+<div class="header">
+  <div class="brand">DailyBite</div>
 
-    <div>
-      <div id="currentDate"></div>
-      <div class="small">Food opportunity intelligence</div>
-    </div>
-
-    <div onclick="shiftDate(1)">→</div>
+  <div class="subrow">
+    <div>Food opportunity intelligence</div>
+    <div class="scanner"><div class="scan-dot"></div> Live Scanner</div>
   </div>
-</header>
+</div>
+
+<div class="controls">
+  <div class="dateNav">
+    <div class="arrow" onclick="shiftDate(-1)">‹</div>
+    <div id="dateLabel"></div>
+    <div class="arrow" onclick="shiftDate(1)">›</div>
+  </div>
+
+  <div class="toggle">
+    <div class="active">Day</div>
+    <div>Week</div>
+  </div>
+</div>
 
 <div class="filters" id="filters"></div>
 
@@ -199,185 +298,224 @@ header{
 <!-- ================= CALENDAR ================= -->
 <div id="calendar" class="page">
 
-<div class="calendarHeader">
-  <div onclick="shiftMonth(-1)">←</div>
-  <div id="monthLabel"></div>
-  <div onclick="shiftMonth(1)">→</div>
+<div class="header">
+  <div class="brand">Food Calendar</div>
 </div>
 
+<div class="calendarHeader">
+  <div class="arrow" onclick="shiftMonth(-1)">‹</div>
+  <div id="monthLabel"></div>
+  <div class="arrow" onclick="shiftMonth(1)">›</div>
+</div>
+
+<div class="grid" id="weekdays"></div>
 <div class="grid" id="calendarGrid"></div>
 
-<div class="panel" id="dayPanel">
-  Select a day
-</div>
+<div id="panel" class="panel">Select a day</div>
 
 </div>
 
 <!-- ================= SETTINGS ================= -->
 <div id="settings" class="page">
-Settings
+<div class="header">
+  <div class="brand">Settings</div>
+</div>
 </div>
 
 <!-- NAV -->
 <div class="nav">
-  <button class="active" onclick="nav('deals')">Deals</button>
-  <button onclick="nav('calendar')">Calendar</button>
-  <button onclick="nav('settings')">Settings</button>
+  <button class="active" onclick="nav('deals')">
+    <div class="icon">🏷️</div>Deals
+  </button>
+  <button onclick="nav('calendar')">
+    <div class="icon">📅</div>Calendar
+  </button>
+  <button onclick="nav('settings')">
+    <div class="icon">⚙️</div>Settings
+  </button>
 </div>
 
 <script>
 
-let deals = [];
-let foodDays = [];
-
-let selectedDate = new Date();
-let selectedFilter = "All";
-let selectedMonth = new Date();
-
-const fmt = (d)=> d.toISOString().split("T")[0];
+let deals=[], foodDays=[];
+let selectedDate=new Date();
+let selectedMonth=new Date();
+let selectedFilter="All";
 
 /* LOAD */
 Promise.all([
-  fetch('./deals.json').then(r=>r.json()),
-  fetch('./food_days.json').then(r=>r.json())
+ fetch('./deals.json').then(r=>r.json()),
+ fetch('./food_days.json').then(r=>r.json())
 ]).then(([d,f])=>{
-  deals=d;
-  foodDays=f;
+ deals=d; foodDays=f;
 
-  renderFilters();
-  renderDeals();
-  renderCalendar();
+ renderFilters();
+ renderDeals();
+ renderCalendar();
 });
 
 /* NAV */
 function nav(p){
-  document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
-  document.getElementById(p).classList.add("active");
+ document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+ document.getElementById(p).classList.add("active");
 }
 
 /* ================= DEALS ================= */
 
-function shiftDate(dir){
-  selectedDate.setDate(selectedDate.getDate()+dir);
-  renderDeals();
+function shiftDate(d){
+ selectedDate.setDate(selectedDate.getDate()+d);
+ renderDeals();
 }
 
 function renderFilters(){
-  const filters=["All","100","90+","70+","Free Food"];
+ const f=["All","100","90+","70+","Free Food"];
 
-  document.getElementById("filters").innerHTML =
-    filters.map(f=>`
-      <div class="pill ${f===selectedFilter?'active':''}"
-      onclick="setFilter('${f}')">${f}</div>
-    `).join("");
+ document.getElementById("filters").innerHTML =
+ f.map(x=>`
+  <div class="pill ${selectedFilter===x?'active':''}"
+  onclick="setFilter('${x}')">${x}</div>
+ `).join("");
 }
 
 function setFilter(f){
-  selectedFilter=f;
-  renderFilters();
-  renderDeals();
+ selectedFilter=f;
+ renderFilters();
+ renderDeals();
 }
 
 function scoreColor(s){
-  if(s===100) return "linear-gradient(45deg,#FDE68A,#F59E0B)";
-  if(s>=90) return "var(--green)";
-  if(s>=70) return "var(--yellow)";
-  return "var(--red)";
+ if(s===100) return "#F5C542";
+ if(s>=90) return "#22C55E";
+ if(s>=70) return "#F59E0B";
+ return "#EF4444";
+}
+
+/* SVG CIRCLE */
+function circle(score){
+ const r=22;
+ const c=2*Math.PI*r;
+ const pct=score/100*c;
+
+ return `
+ <svg width="64" height="64">
+  <circle cx="32" cy="32" r="${r}" stroke="#1F2937" stroke-width="4" fill="none"/>
+  <circle cx="32" cy="32" r="${r}"
+    stroke="${scoreColor(score)}"
+    stroke-width="4"
+    fill="none"
+    stroke-dasharray="${pct} ${c}"
+    transform="rotate(-90 32 32)"/>
+  <text x="32" y="36" class="scoreText">${score}</text>
+ </svg>`;
 }
 
 function renderDeals(){
 
-  document.getElementById("currentDate").innerText =
-    selectedDate.toDateString();
+ document.getElementById("dateLabel").innerText =
+ selectedDate.toDateString();
 
-  let dateStr = fmt(selectedDate);
+ let dateStr=selectedDate.toISOString().split("T")[0];
 
-  let filtered = deals.filter(d=>d.event_start_date===dateStr);
+ let list=deals.filter(d=>d.event_start_date===dateStr);
 
-  if(selectedFilter==="100") filtered=filtered.filter(d=>d.bite_score===100);
-  if(selectedFilter==="90+") filtered=filtered.filter(d=>d.bite_score>=90);
-  if(selectedFilter==="70+") filtered=filtered.filter(d=>d.bite_score>=70);
+ if(selectedFilter==="100") list=list.filter(x=>x.bite_score===100);
+ if(selectedFilter==="90+") list=list.filter(x=>x.bite_score>=90);
+ if(selectedFilter==="70+") list=list.filter(x=>x.bite_score>=70);
 
-  // PIN 100s
-  let pinned = filtered.filter(d=>d.bite_score===100);
-  let rest = filtered.filter(d=>d.bite_score!==100)
-    .sort((a,b)=>b.bite_score-a.bite_score);
+ let pinned=list.filter(x=>x.bite_score===100);
+ let rest=list.filter(x=>x.bite_score!==100)
+  .sort((a,b)=>b.bite_score-a.bite_score);
 
-  const all=[...pinned,...rest];
+ let all=[...pinned,...rest];
 
-  document.getElementById("dealList").innerHTML =
-  all.map(d=>`
-    <div class="card">
+ document.getElementById("dealList").innerHTML =
+ all.map(d=>`
+  <div class="card">
+    <div class="scoreWrap">${circle(d.bite_score)}</div>
 
-      <div class="score"
-      style="border-color:${scoreColor(d.bite_score)}">
-        ${d.bite_score}
-      </div>
-
-      <div>
-        <div style="font-weight:800">${d.title}</div>
-        <div class="small">${d.description}</div>
-        <div class="small">📍 ${d.location}</div>
-      </div>
-
+    <div>
+      <div style="font-weight:800">${d.title}</div>
+      <div style="color:#94A3B8;font-size:12px">${d.description}</div>
+      <div style="color:#94A3B8;font-size:12px">📍 ${d.location}</div>
+      <div style="margin-top:8px;font-size:12px">View Source →</div>
     </div>
-  `).join("");
+  </div>
+ `).join("");
 }
 
 /* ================= CALENDAR ================= */
 
-function shiftMonth(dir){
-  selectedMonth.setMonth(selectedMonth.getMonth()+dir);
-  renderCalendar();
+function shiftMonth(d){
+ selectedMonth.setMonth(selectedMonth.getMonth()+d);
+ renderCalendar();
 }
 
 function renderCalendar(){
 
-  const m = selectedMonth.getMonth();
-  const y = selectedMonth.getFullYear();
+ let y=selectedMonth.getFullYear();
+ let m=selectedMonth.getMonth();
 
-  document.getElementById("monthLabel").innerText =
-    selectedMonth.toLocaleString('default',{month:'long',year:'numeric'});
+ document.getElementById("monthLabel").innerText =
+ selectedMonth.toLocaleString('default',{month:'long',year:'numeric'});
 
-  let days=new Date(y,m+1,0).getDate();
+ const weekdays=["S","M","T","W","T","F","S"];
 
-  let html="";
+ document.getElementById("weekdays").innerHTML =
+ weekdays.map(d=>`<div class="weekday">${d}</div>`).join("");
 
-  for(let i=1;i<=days;i++){
+ let first=new Date(y,m,1).getDay();
+ let days=new Date(y,m+1,0).getDate();
 
-    let dateStr = `${y}-${String(m+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
+ let html="";
 
-    let has = deals.some(d=>d.event_start_date===dateStr);
-    let isToday = fmt(new Date())===dateStr;
+ for(let i=0;i<first;i++){
+  html+=`<div></div>`;
+ }
 
-    html+=`
-      <div class="day ${isToday?'active':''}"
-      onclick="selectDay('${dateStr}')">
-        ${i}
-        ${has?'<div class="dot"></div>':''}
-      </div>
-    `;
-  }
+ for(let i=1;i<=days;i++){
 
-  document.getElementById("calendarGrid").innerHTML=html;
+  let date=`${y}-${String(m+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
+
+  let dayDeals=deals.filter(d=>d.event_start_date===date);
+  let max=Math.max(0,...dayDeals.map(d=>d.bite_score));
+
+  let isToday=(new Date().toISOString().split("T")[0]===date);
+
+  let cls="day";
+  if(max===100) cls+=" gold";
+
+  html+=`
+   <div class="${cls}" onclick="selectDay('${date}')">
+     ${isToday?'<div class="todayLabel">TODAY</div>':''}
+     <div>${i}</div>
+     ${dayDeals.length?`<div style="width:6px;height:6px;border-radius:50%;background:${scoreColor(max)}"></div>`:''}
+   </div>
+  `;
+ }
+
+ document.getElementById("calendarGrid").innerHTML=html;
 }
 
-function selectDay(dateStr){
+function selectDay(date){
 
-  let d = foodDays.find(x=>x.date===dateStr);
+ selectedDate=new Date(date);
 
-  let related = deals.filter(x=>x.event_start_date===dateStr);
+ let d=foodDays.find(x=>x.date===date);
+ let dayDeals=deals.filter(x=>x.event_start_date===date);
 
-  document.getElementById("dayPanel").innerHTML=`
-    <div style="font-weight:800">${d?d.title:"No food holiday"}</div>
-    <div class="small">${dateStr}</div>
+ document.getElementById("panel").innerHTML=`
+  <div style="font-weight:800">${d?d.title:"No Food Holiday"}</div>
 
-    ${related.map(r=>`
-      <div style="margin-top:8px">
-        • ${r.title} (${r.bite_score})
-      </div>
-    `).join("")}
-  `;
+  ${dayDeals.map(x=>`
+   <div class="card" style="margin-top:10px">
+    <div class="scoreWrap">${circle(x.bite_score)}</div>
+    <div>
+      <div>${x.title}</div>
+      <div style="color:#94A3B8;font-size:12px">${x.description}</div>
+    </div>
+   </div>
+  `).join("")}
+ `;
 }
 
 </script>
