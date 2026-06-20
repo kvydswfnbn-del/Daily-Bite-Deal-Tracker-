@@ -1,0 +1,245 @@
+[
+  {
+    "title": "National Donut Day",
+    "date": "2026-06-05",
+    "type": "national_food_holiday",
+    "typical_deals": [
+      "Free donut from Krispy Kreme",
+      "Free donut with purchase at Dunkin",
+      "Local bakery promotions"
+    ],
+    "deal_likelihood": 0.95,
+    "bite_opportunity_score": 95
+  },
+  {
+    "title": "National Chocolate Ice Cream Day",
+    "date": "2026-06-07",
+    "type": "national_food_holiday",
+    "typical_deals": [
+      "Discount ice cream cones",
+      "Buy-one-get-one frozen treats"
+    ],
+    "deal_likelihood": 0.7,
+    "bite_opportunity_score": 70
+  },
+  {
+    "title": "National Egg Roll Day",
+    "date": "2026-06-10",
+    "type": "national_food_holiday",
+    "typical_deals": [
+      "Asian restaurants discounts",
+      "Free egg rolls with entree"
+    ],
+    "deal_likelihood": 0.6,
+    "bite_opportunity_score": 60
+  },
+  {
+    "title": "National Corn on the Cob Day",
+    "date": "2026-06-11",
+    "type": "national_food_holiday",
+    "typical_deals": [
+      "BBQ chain discounts",
+      "Free side promotions"
+    ],
+    "deal_likelihood": 0.55,
+    "bite_opportunity_score": 55
+  },
+  {
+    "title": "National Peanut Butter Cookie Day",
+    "date": "2026-06-12",
+    "type": "national_food_holiday",
+    "typical_deals": [
+      "Bakery freebies",
+      "Cookie shop promotions"
+    ],
+    "deal_likelihood": 0.6,
+    "bite_opportunity_score": 60
+  },
+  {
+    "title": "National Bourbon Day (Food Tie-ins)",
+    "date": "2026-06-14",
+    "type": "food_and_beverage_holiday",
+    "typical_deals": [
+      "Restaurant pairing menus",
+      "Bar food discounts"
+    ],
+    "deal_likelihood": 0.4,
+    "bite_opportunity_score": 40
+  },
+  {
+    "title": "National Lobster Day",
+    "date": "2026-06-15",
+    "type": "seafood_holiday",
+    "typical_deals": [
+      "Lobster roll discounts",
+      "Seafood boil specials"
+    ],
+    "deal_likelihood": 0.75,
+    "bite_opportunity_score": 75
+  },
+  {
+    "title": "National Fudge Day",
+    "date": "2026-06-16",
+    "type": "dessert_holiday",
+    "typical_deals": [
+      "Candy shop freebies",
+      "Chocolate shop samples"
+    ],
+    "deal_likelihood": 0.65,
+    "bite_opportunity_score": 65
+  },
+  {
+    "title": "National Apple Strudel Day",
+    "date": "2026-06-17",
+    "type": "dessert_holiday",
+    "typical_deals": [
+      "Bakery discounts",
+      "Free pastry with coffee"
+    ],
+    "deal_likelihood": 0.5,
+    "bite_opportunity_score": 50
+  },
+  {
+    "title": "National Sushi Day",
+    "date": "2026-06-18",
+    "type": "national_food_holiday",
+    "typical_deals": [
+      "Sushi BOGO rolls",
+      "Half-off specialty rolls"
+    ],
+    "deal_likelihood": 0.85,
+    "bite_opportunity_score": 85
+  },
+  {
+    "title": "National Martini Day (Food Pairings)",
+    "date": "2026-06-19",
+    "type": "food_and_beverage_holiday",
+    "typical_deals": [
+      "Bar snack discounts",
+      "Happy hour extensions"
+    ],
+    "deal_likelihood": 0.5,
+    "bite_opportunity_score": 50
+  },
+  {
+    "title": "National Vanilla Milkshake Day",
+    "date": "2026-06-20",
+    "type": "fast_food_holiday",
+    "typical_deals": [
+      "Free milkshake upgrades",
+      "Burger chain promotions"
+    ],
+    "deal_likelihood": 0.8,
+    "bite_opportunity_score": 80
+  },
+  {
+    "title": "National Smoothie Day",
+    "date": "2026-06-21",
+    "type": "health_food_holiday",
+    "typical_deals": [
+      "Buy-one-get-one smoothies",
+      "Free add-ons"
+    ],
+    "deal_likelihood": 0.9,
+    "bite_opportunity_score": 90
+  },
+  {
+    "title": "National Onion Rings Day",
+    "date": "2026-06-22",
+    "type": "fast_food_holiday",
+    "typical_deals": [
+      "Free side upgrades",
+      "Burger combo deals"
+    ],
+    "deal_likelihood": 0.65,
+    "bite_opportunity_score": 65
+  },
+  {
+    "title": "National Pink Day (Food tie-ins)",
+    "date": "2026-06-23",
+    "type": "novelty_food_holiday",
+    "typical_deals": [
+      "Pink desserts promotions",
+      "Limited bakery specials"
+    ],
+    "deal_likelihood": 0.3,
+    "bite_opportunity_score": 30
+  },
+  {
+    "title": "National Pralines Day",
+    "date": "2026-06-24",
+    "type": "dessert_holiday",
+    "typical_deals": [
+      "Candy shop samples",
+      "Bakery discounts"
+    ],
+    "deal_likelihood": 0.55,
+    "bite_opportunity_score": 55
+  },
+  {
+    "title": "National Strawberry Parfait Day",
+    "date": "2026-06-25",
+    "type": "dessert_holiday",
+    "typical_deals": [
+      "Breakfast chain specials",
+      "Free parfait add-ons"
+    ],
+    "deal_likelihood": 0.6,
+    "bite_opportunity_score": 60
+  },
+  {
+    "title": "National Chocolate Pudding Day",
+    "date": "2026-06-26",
+    "type": "dessert_holiday",
+    "typical_deals": [
+      "Fast food desserts",
+      "Bakery promotions"
+    ],
+    "deal_likelihood": 0.7,
+    "bite_opportunity_score": 70
+  },
+  {
+    "title": "National Onion Day (Food promos)",
+    "date": "2026-06-27",
+    "type": "ingredient_holiday",
+    "typical_deals": [
+      "Burger topping promos",
+      "BBQ specials"
+    ],
+    "deal_likelihood": 0.5,
+    "bite_opportunity_score": 50
+  },
+  {
+    "title": "National Ceviche Day",
+    "date": "2026-06-28",
+    "type": "seafood_holiday",
+    "typical_deals": [
+      "Latin restaurant specials",
+      "Seafood discounts"
+    ],
+    "deal_likelihood": 0.7,
+    "bite_opportunity_score": 70
+  },
+  {
+    "title": "National Waffle Iron Day",
+    "date": "2026-06-29",
+    "type": "breakfast_holiday",
+    "typical_deals": [
+      "Waffle house promotions",
+      "Breakfast combo deals"
+    ],
+    "deal_likelihood": 0.75,
+    "bite_opportunity_score": 75
+  },
+  {
+    "title": "National Ice Cream Soda Day",
+    "date": "2026-06-30",
+    "type": "dessert_holiday",
+    "typical_deals": [
+      "Dairy Queen promotions",
+      "Ice cream shop specials"
+    ],
+    "deal_likelihood": 0.85,
+    "bite_opportunity_score": 85
+  }
+]
