@@ -213,9 +213,12 @@ for(let day=1;day<=totalDays;day++){
 const date=
 `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
 
+// Check if this loop day is the currently selected calendar day
+const isSelected = date === selectedCalendarDate ? "selected" : "";
+
 html+=`
 <div
-class="day"
+class="day ${isSelected}"
 onclick="selectDay('${date}')">
 <div>${day}</div>
 </div>
@@ -229,9 +232,11 @@ renderHolidayList();
 }
 
 function renderHolidayList(){
+// Filter out everything except the holiday that matches the selected date
+const filteredHolidays = foodDays.filter(h => h.date === selectedCalendarDate);
 
 document.getElementById("holidayList").innerHTML=
-foodDays.map(h=>`
+filteredHolidays.map(h=>`
 <div class="holidayRow">
 <div class="holidayTitle">
 ${h.title}
@@ -246,6 +251,9 @@ ${h.date}
 function selectDay(date){
 
 selectedCalendarDate=date;
+
+// Re-render calendar so the new selected day receives the 'selected' class highlight
+renderCalendar();
 
 const matches=
 deals.filter(
