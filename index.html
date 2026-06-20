@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DailyBite</title>
+
+  <style>
+    :root {
+      --bg: #0D1117;
+      --card: #161B22;
+      --border: #30363D;
+      --text: #E6EDF3;
+      --muted: #8B949E;
+
+      --gold: #FFD700;
+      --green: #22C55E;
+      --yellow: #FACC15;
+      --red: #EF4444;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    header {
+      padding: 16px;
+      font-size: 18px;
+      font-weight: 600;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .container {
+      padding: 12px;
+      padding-bottom: 80px;
+    }
+
+    /* TOP FEATURE CARD */
+    .best-bite {
+      background: linear-gradient(145deg, #161B22, #0f131a);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+
+    .best-score {
+      font-size: 32px;
+      font-weight: 800;
+    }
+
+    /* FILTERS */
+    .filters {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      margin: 10px 0;
+    }
+
+    .chip {
+      padding: 6px 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    /* DEAL CARD */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+
+    .score {
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    .title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .meta {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .verified {
+      font-size: 11px;
+      color: var(--green);
+      margin-top: 6px;
+    }
+
+    /* BOTTOM NAV */
+    .nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      display: flex;
+      background: #0B0F14;
+      border-top: 1px solid var(--border);
+    }
+
+    .nav button {
+      flex: 1;
+      padding: 14px;
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .nav button.active {
+      color: var(--text);
+    }
+
+    /* SCORE COLORS */
+    .gold { color: var(--gold); }
+    .green { color: var(--green); }
+    .yellow { color: var(--yellow); }
+    .red { color: var(--red); }
+
+    .hidden { display: none; }
+  </style>
+</head>
+
+<body>
+
+<header>DailyBite</header>
+
+<div class="container">
+
+  <!-- BEST BITE -->
+  <div class="best-bite" id="bestBite"></div>
+
+  <!-- FILTERS -->
+  <div class="filters">
+    <div class="chip">All</div>
+    <div class="chip">100</div>
+    <div class="chip">90+</div>
+    <div class="chip">70+</div>
+    <div class="chip">Free Food</div>
+    <div class="chip">BOGO</div>
+  </div>
+
+  <!-- DEAL LIST -->
+  <div id="dealsView"></div>
+
+  <!-- CALENDAR -->
+  <div id="calendarView" class="hidden">
+    <p style="color:#8B949E">Calendar view placeholder (connect later)</p>
+  </div>
+
+  <!-- SETTINGS -->
+  <div id="settingsView" class="hidden">
+    <p style="color:#8B949E">Settings placeholder</p>
+  </div>
+
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button onclick="switchTab('deals')" class="active">Deals</button>
+  <button onclick="switchTab('calendar')">Calendar</button>
+  <button onclick="switchTab('settings')">Settings</button>
+</div>
+
+<script>
+let deals = [];
+
+// LOAD JSON
+fetch('./deals.json')
+  .then(res => res.json())
+  .then(data => {
+    deals = data;
+    render();
+  });
+
+function scoreClass(score) {
+  if (score === 100) return "gold";
+  if (score >= 90) return "green";
+  if (score >= 70) return "yellow";
+  return "red";
+}
+
+function render() {
+  const container = document.getElementById("dealsView");
+
+  // BEST BITE
+  const best = [...deals].sort((a,b) => b.bite_score - a.bite_score)[0];
+
+  document.getElementById("bestBite").innerHTML = `
+    <div class="best-score ${scoreClass(best.bite_score)}">
+      🥇 ${best.bite_score}
+    </div>
+    <div class="title">${best.title}</div>
+    <div class="meta">${best.description}</div>
+  `;
+
+  // LIST
+  container.innerHTML = deals
+    .sort((a,b) => b.bite_score - a.bite_score)
+    .map(d => `
+      <div class="card">
+        <div class="score ${scoreClass(d.bite_score)}">${d.bite_score}</div>
+        <div class="title">${d.title}</div>
+        <div class="meta">${d.description}</div>
+        <div class="meta">${d.location || ""}</div>
+        <div class="verified">${d.verified ? "VERIFIED" : ""}</div>
+      </div>
+    `).join("");
+}
+
+// TAB SWITCHING
+function switchTab(tab) {
+  document.getElementById("dealsView").classList.add("hidden");
+  document.getElementById("calendarView").classList.add("hidden");
+  document.getElementById("settingsView").classList.add("hidden");
+
+  document.querySelectorAll(".nav button").forEach(b => b.classList.remove("active"));
+
+  if (tab === "deals") {
+    document.getElementById("dealsView").classList.remove("hidden");
+    document.querySelectorAll(".nav button")[0].classList.add("active");
+  }
+
+  if (tab === "calendar") {
+    document.getElementById("calendarView").classList.remove("hidden");
+    document.querySelectorAll(".nav button")[1].classList.add("active");
+  }
+
+  if (tab === "settings") {
+    document.getElementById("settingsView").classList.remove("hidden");
+    document.querySelectorAll(".nav button")[2].classList.add("active");
+  }
+}
+</script>
+
+</body>
+</html>
