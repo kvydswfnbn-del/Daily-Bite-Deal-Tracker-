@@ -9,6 +9,59 @@ let selectedCalendarDate = null;
 
 let dealViewMode = "day";
 
+function getScoreColor(score){
+    if(score === 100){
+        return "#F5C542"; // Gold
+    }
+    if(score >= 90){
+        return "#22C55E"; // Green
+    }
+    if(score >= 70){
+        return "#F59E0B"; // Orange
+    }
+    return "#EF4444"; // Red
+}
+
+function buildScoreRing(score){
+    const radius = 46;
+    const circumference = 2 * Math.PI * radius;
+    const fill =
+        circumference * (score / 100);
+    const color =
+        getScoreColor(score);
+    return `
+        <svg
+            width="120"
+            height="120"
+            viewBox="0 0 120 120">
+            <circle
+                cx="60"
+                cy="60"
+                r="${radius}"
+                stroke="#30363d"
+                stroke-width="10"
+                fill="none"/>
+            <circle
+                cx="60"
+                cy="60"
+                r="${radius}"
+                stroke="${color}"
+                stroke-width="10"
+                fill="none"
+                stroke-linecap="round"
+                stroke-dasharray="${fill} ${circumference}"
+                transform="rotate(-90 60 60)"/>
+            <text
+                x="60"
+                y="68"
+                text-anchor="middle"
+                class="scoreNumber">
+                ${score}
+            </text>
+        </svg>
+    `;
+}
+
 Promise.all([
 fetch("./deals.json").then(r=>r.json()),
 fetch("./food_days.json").then(r=>r.json())
@@ -139,9 +192,9 @@ list.sort((a,b)=>b.bite_score-a.bite_score);
 
 document.getElementById("dealList").innerHTML=
 list.map(d=>`
-<div class="card">
+<div class="card" style="border-left-color:${getScoreColor(d.bite_score)}">
 <div class="scoreWrap">
-${d.bite_score}
+${buildScoreRing(d.bite_score)}
 </div>
 <div>
 <div class="cardTitle">
@@ -238,9 +291,9 @@ d=>d.event_start_date===date
 
 document.getElementById("calendarDeals").innerHTML=
 matches.map(d=>`
-<div class="card">
+<div class="card" style="border-left-color:${getScoreColor(d.bite_score)}">
 <div class="scoreWrap">
-${d.bite_score}
+${buildScoreRing(d.bite_score)}
 </div>
 <div>
 <div class="cardTitle">
