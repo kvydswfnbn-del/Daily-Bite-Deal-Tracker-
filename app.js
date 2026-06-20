@@ -7,8 +7,6 @@ let selectedMonth = new Date();
 let selectedFilter = "All";
 let selectedCalendarDate = null;
 
-let dealViewMode = "day";
-
 function getScoreColor(score){
     if(score === 100){
         return "#F5C542"; // Gold
@@ -93,21 +91,6 @@ document
 btn.classList.add("active");
 }
 
-function setViewMode(mode){
-
-dealViewMode=mode;
-
-document
-.getElementById("dayToggle")
-.classList.toggle("active",mode==="day");
-
-document
-.getElementById("weekToggle")
-.classList.toggle("active",mode==="week");
-
-renderDeals();
-}
-
 function shiftDate(days){
 
 selectedDate.setDate(
@@ -154,30 +137,10 @@ selectedDate.toDateString();
 const dateString =
 selectedDate.toISOString().split("T")[0];
 
-let list=[];
-
-if(dealViewMode==="day"){
-
-list=deals.filter(
-d=>d.event_start_date===dateString
+// Strictly pull only matching single-day deals
+let list = deals.filter(
+    d => d.event_start_date === dateString
 );
-
-}else{
-
-let end=new Date(selectedDate);
-end.setDate(end.getDate()+6);
-
-list=deals.filter(d=>{
-
-let dealDate =
-new Date(d.event_start_date);
-
-return dealDate>=selectedDate
-&& dealDate<=end;
-
-});
-
-}
 
 if(selectedFilter==="100")
 list=list.filter(x=>x.bite_score===100);
