@@ -6,377 +6,221 @@
 <title>DailyBite</title>
 
 <style>
-/* =========================
-   GLOBAL THEME
-========================= */
+:root{
+  --bg:#0B0F14;
+  --card:#0F172A;
+  --border:#1F2937;
+  --text:#F8FAFC;
+  --muted:#94A3B8;
 
-:root {
-  --bg: #0B0F14;
-  --panel: #111827;
-  --card: #0F172A;
-  --border: #1F2937;
-
-  --text: #F8FAFC;
-  --muted: #94A3B8;
-
-  --green: #22C55E;
-  --yellow: #FACC15;
-  --red: #EF4444;
+  --green:#22C55E;
+  --yellow:#F59E0B;
+  --red:#EF4444;
+  --gold1:#FDE68A;
+  --gold2:#F59E0B;
+  --blue:#3B82F6;
 }
 
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-  background: var(--bg);
-  color: var(--text);
+body{
+  margin:0;
+  font-family:system-ui;
+  background:var(--bg);
+  color:var(--text);
 }
 
-/* =========================
-   HEADER
-========================= */
-
-header {
-  padding: 14px 14px 8px;
-  border-bottom: 1px solid var(--border);
+header{
+  padding:12px;
+  border-bottom:1px solid var(--border);
 }
 
-.header-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 }
 
-.title {
-  font-size: 18px;
-  font-weight: 700;
+.small{
+  color:var(--muted);
+  font-size:12px;
 }
 
-.subtitle {
-  font-size: 11px;
-  color: var(--muted);
-  font-family: monospace;
-  margin-top: 4px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.page{display:none;padding:12px;padding-bottom:90px;}
+.page.active{display:block}
+
+/* NAV */
+.nav{
+  position:fixed;bottom:0;width:100%;
+  display:flex;
+  background:#0f172acc;
+  backdrop-filter:blur(10px);
+  border-top:1px solid var(--border);
+}
+.nav button{
+  flex:1;padding:12px;
+  background:none;border:none;
+  color:var(--muted);
+}
+.nav button.active{
+  color:white;
+  border-top:2px solid var(--green);
 }
 
-.live-badge {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 10px;
-  padding: 2px 8px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
+/* DATE NAV */
+.dateNav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+  font-weight:600;
 }
 
-.dot {
-  width: 6px;
-  height: 6px;
-  background: var(--green);
-  border-radius: 50%;
-  animation: pulse 1.5s infinite;
+/* FILTERS */
+.filters{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:8px 0;
+}
+.pill{
+  padding:6px 10px;
+  border:1px solid var(--border);
+  border-radius:999px;
+  color:var(--muted);
+  font-size:12px;
+}
+.pill.active{
+  background:white;
+  color:black;
 }
 
-@keyframes pulse {
-  0% { opacity: 1; }
-  50% { opacity: 0.3; }
-  100% { opacity: 1; }
+/* CARD */
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:12px;
+  margin-bottom:10px;
+  display:flex;
+  gap:12px;
+  position:relative;
 }
 
-/* =========================
-   LAYOUT
-========================= */
-
-.page {
-  display: none;
-  padding: 12px;
-  padding-bottom: 90px;
+.card::before{
+  content:"";
+  width:3px;
+  position:absolute;
+  left:0;
+  top:10px;
+  bottom:10px;
+  border-radius:3px;
 }
 
-.page.active {
-  display: block;
+.score{
+  width:54px;height:54px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:800;
+  border:2px solid var(--green);
 }
 
-/* =========================
-   FILTER PILLS
-========================= */
-
-.filters {
-  display: flex;
-  overflow-x: auto;
-  gap: 8px;
-  padding: 8px 0;
+/* CALENDAR */
+.calendarHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
 }
 
-.pill {
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-size: 12px;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--muted);
-  white-space: nowrap;
+.grid{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:6px;
 }
 
-.pill.active {
-  background: white;
-  color: black;
+.day{
+  width:100%;
+  aspect-ratio:1;
+  border-radius:50%;
+  background:var(--card);
+  border:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  font-size:12px;
 }
 
-/* =========================
-   DEAL CARD
-========================= */
-
-.card {
-  display: flex;
-  gap: 12px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 12px;
-  margin-bottom: 10px;
-  position: relative;
+.day.active{
+  box-shadow:0 0 0 2px var(--blue);
 }
 
-.card::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 10px;
-  bottom: 10px;
-  width: 3px;
-  background: var(--green);
-  border-radius: 3px;
+.dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--green);
+  margin-top:3px;
 }
 
-/* SCORE RING */
-.score {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  border: 2px solid var(--green);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 14px;
-  flex-shrink: 0;
-}
-
-/* CARD CONTENT */
-.card-content {
-  flex: 1;
-}
-
-.card-title {
-  font-weight: 800;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-}
-
-.card-desc {
-  font-size: 12px;
-  color: var(--muted);
-  margin-top: 4px;
-}
-
-.meta {
-  font-size: 11px;
-  color: var(--muted);
-  margin-top: 6px;
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
-
-.badge {
-  font-size: 10px;
-  padding: 2px 6px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  color: var(--muted);
-}
-
-.badge.green {
-  border-color: var(--green);
-  color: var(--green);
-}
-
-/* BUTTON */
-.source-btn {
-  margin-top: 10px;
-  font-size: 12px;
-  padding: 8px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  text-align: center;
-  color: var(--text);
-  text-decoration: none;
-  display: block;
-}
-
-/* =========================
-   CALENDAR
-========================= */
-
-.calendar-header {
-  margin-bottom: 10px;
-}
-
-.calendar-header h3 {
-  margin: 0;
-}
-
-.calendar-header small {
-  color: var(--muted);
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 6px;
-}
-
-.day {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 6px;
-  text-align: center;
-  min-height: 42px;
-}
-
-.day-num {
-  font-size: 12px;
-}
-
-.dot-small {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  margin: 4px auto 0;
-  background: var(--green);
-}
-
-/* MONTH LIST */
-.month-list {
-  margin-top: 12px;
-}
-
-.row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  margin-bottom: 8px;
-}
-
-.circle {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-}
-
-/* =========================
-   NAV
-========================= */
-
-.nav {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  display: flex;
-  background: rgba(15, 23, 42, 0.9);
-  backdrop-filter: blur(10px);
-  border-top: 1px solid var(--border);
-}
-
-.nav button {
-  flex: 1;
-  padding: 12px;
-  background: none;
-  border: none;
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.nav button.active {
-  color: var(--text);
-  border-top: 2px solid var(--green);
+/* DETAIL */
+.panel{
+  margin-top:10px;
+  padding:10px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:var(--card);
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <div class="header-top">
-    <div>←</div>
-    <div class="title">DailyBite</div>
-    <div>⚙️ ⋯</div>
-  </div>
+<!-- ================= DEALS ================= -->
+<div id="deals" class="page active">
 
-  <div class="subtitle">
-    Food opportunity intelligence
-    <div class="live-badge">
-      <div class="dot"></div> LIVE
+<header>
+  <div class="row">
+    <div onclick="shiftDate(-1)">←</div>
+
+    <div>
+      <div id="currentDate"></div>
+      <div class="small">Food opportunity intelligence</div>
     </div>
+
+    <div onclick="shiftDate(1)">→</div>
   </div>
 </header>
 
-<!-- =========================
-     DEALS
-========================= -->
-<div id="deals" class="page active">
+<div class="filters" id="filters"></div>
 
-  <div class="filters">
-    <div class="pill active">All</div>
-    <div class="pill">100</div>
-    <div class="pill">90+</div>
-    <div class="pill">70+</div>
-    <div class="pill">Free Food</div>
-  </div>
-
-  <div id="dealList"></div>
+<div id="dealList"></div>
 </div>
 
-<!-- =========================
-     CALENDAR
-========================= -->
+<!-- ================= CALENDAR ================= -->
 <div id="calendar" class="page">
 
-  <div class="calendar-header">
-    <h3>Food Calendar</h3>
-    <small>June 2026</small>
-  </div>
-
-  <div class="grid" id="calendarGrid"></div>
-
-  <div class="month-list" id="monthList"></div>
+<div class="calendarHeader">
+  <div onclick="shiftMonth(-1)">←</div>
+  <div id="monthLabel"></div>
+  <div onclick="shiftMonth(1)">→</div>
 </div>
 
-<!-- =========================
-     SETTINGS
-========================= -->
+<div class="grid" id="calendarGrid"></div>
+
+<div class="panel" id="dayPanel">
+  Select a day
+</div>
+
+</div>
+
+<!-- ================= SETTINGS ================= -->
 <div id="settings" class="page">
-  <div class="card-content">
-    Settings Placeholder
-  </div>
+Settings
 </div>
 
 <!-- NAV -->
 <div class="nav">
-  <button onclick="nav('deals')" class="active">Deals</button>
+  <button class="active" onclick="nav('deals')">Deals</button>
   <button onclick="nav('calendar')">Calendar</button>
   <button onclick="nav('settings')">Settings</button>
 </div>
@@ -386,90 +230,154 @@ header {
 let deals = [];
 let foodDays = [];
 
-/* LOAD DATA */
-Promise.all([
-  fetch('./deals.json').then(r => r.json()),
-  fetch('./food_days.json').then(r => r.json())
-]).then(([d,f]) => {
-  deals = d;
-  foodDays = f;
+let selectedDate = new Date();
+let selectedFilter = "All";
+let selectedMonth = new Date();
 
+const fmt = (d)=> d.toISOString().split("T")[0];
+
+/* LOAD */
+Promise.all([
+  fetch('./deals.json').then(r=>r.json()),
+  fetch('./food_days.json').then(r=>r.json())
+]).then(([d,f])=>{
+  deals=d;
+  foodDays=f;
+
+  renderFilters();
   renderDeals();
   renderCalendar();
-  renderMonthList();
 });
 
 /* NAV */
-function nav(page){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.getElementById(page).classList.add("active");
-
-  document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
-  event.target.classList.add("active");
+function nav(p){
+  document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+  document.getElementById(p).classList.add("active");
 }
 
-/* DEALS */
-function renderDeals(){
-  const el = document.getElementById("dealList");
+/* ================= DEALS ================= */
 
-  el.innerHTML = deals.map(d => `
+function shiftDate(dir){
+  selectedDate.setDate(selectedDate.getDate()+dir);
+  renderDeals();
+}
+
+function renderFilters(){
+  const filters=["All","100","90+","70+","Free Food"];
+
+  document.getElementById("filters").innerHTML =
+    filters.map(f=>`
+      <div class="pill ${f===selectedFilter?'active':''}"
+      onclick="setFilter('${f}')">${f}</div>
+    `).join("");
+}
+
+function setFilter(f){
+  selectedFilter=f;
+  renderFilters();
+  renderDeals();
+}
+
+function scoreColor(s){
+  if(s===100) return "linear-gradient(45deg,#FDE68A,#F59E0B)";
+  if(s>=90) return "var(--green)";
+  if(s>=70) return "var(--yellow)";
+  return "var(--red)";
+}
+
+function renderDeals(){
+
+  document.getElementById("currentDate").innerText =
+    selectedDate.toDateString();
+
+  let dateStr = fmt(selectedDate);
+
+  let filtered = deals.filter(d=>d.event_start_date===dateStr);
+
+  if(selectedFilter==="100") filtered=filtered.filter(d=>d.bite_score===100);
+  if(selectedFilter==="90+") filtered=filtered.filter(d=>d.bite_score>=90);
+  if(selectedFilter==="70+") filtered=filtered.filter(d=>d.bite_score>=70);
+
+  // PIN 100s
+  let pinned = filtered.filter(d=>d.bite_score===100);
+  let rest = filtered.filter(d=>d.bite_score!==100)
+    .sort((a,b)=>b.bite_score-a.bite_score);
+
+  const all=[...pinned,...rest];
+
+  document.getElementById("dealList").innerHTML =
+  all.map(d=>`
     <div class="card">
 
-      <div class="score">${d.bite_score}</div>
+      <div class="score"
+      style="border-color:${scoreColor(d.bite_score)}">
+        ${d.bite_score}
+      </div>
 
-      <div class="card-content">
-        <div class="card-title">${d.title}</div>
-        <div class="card-desc">${d.description}</div>
-
-        <div class="meta">
-          📍 ${d.location}
-          ${d.verified ? `<span class="badge green">VERIFIED</span>` : `<span class="badge">UNVERIFIED</span>`}
-        </div>
-
-        <a class="source-btn" href="${d.source_url}" target="_blank">
-          View Source →
-        </a>
+      <div>
+        <div style="font-weight:800">${d.title}</div>
+        <div class="small">${d.description}</div>
+        <div class="small">📍 ${d.location}</div>
       </div>
 
     </div>
   `).join("");
 }
 
-/* CALENDAR GRID */
+/* ================= CALENDAR ================= */
+
+function shiftMonth(dir){
+  selectedMonth.setMonth(selectedMonth.getMonth()+dir);
+  renderCalendar();
+}
+
 function renderCalendar(){
 
-  const grid = document.getElementById("calendarGrid");
+  const m = selectedMonth.getMonth();
+  const y = selectedMonth.getFullYear();
 
-  let html = "";
+  document.getElementById("monthLabel").innerText =
+    selectedMonth.toLocaleString('default',{month:'long',year:'numeric'});
 
-  for(let i=1;i<=30;i++){
+  let days=new Date(y,m+1,0).getDate();
 
-    const date = `2026-06-${String(i).padStart(2,'0')}`;
-    const hasDeal = deals.find(d => d.event_start_date === date);
+  let html="";
 
-    html += `
-      <div class="day">
-        <div class="day-num">${i}</div>
-        ${hasDeal ? `<div class="dot-small"></div>` : ""}
+  for(let i=1;i<=days;i++){
+
+    let dateStr = `${y}-${String(m+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
+
+    let has = deals.some(d=>d.event_start_date===dateStr);
+    let isToday = fmt(new Date())===dateStr;
+
+    html+=`
+      <div class="day ${isToday?'active':''}"
+      onclick="selectDay('${dateStr}')">
+        ${i}
+        ${has?'<div class="dot"></div>':''}
       </div>
     `;
   }
 
-  grid.innerHTML = html;
+  document.getElementById("calendarGrid").innerHTML=html;
 }
 
-/* MONTH LIST */
-function renderMonthList(){
+function selectDay(dateStr){
 
-  const el = document.getElementById("monthList");
+  let d = foodDays.find(x=>x.date===dateStr);
 
-  el.innerHTML = foodDays.map(d => `
-    <div class="row">
-      <div class="circle">${new Date(d.date).getDate()}</div>
-      <div>${d.title}</div>
-      <div class="circle">●</div>
-    </div>
-  `).join("");
+  let related = deals.filter(x=>x.event_start_date===dateStr);
+
+  document.getElementById("dayPanel").innerHTML=`
+    <div style="font-weight:800">${d?d.title:"No food holiday"}</div>
+    <div class="small">${dateStr}</div>
+
+    ${related.map(r=>`
+      <div style="margin-top:8px">
+        • ${r.title} (${r.bite_score})
+      </div>
+    `).join("")}
+  `;
 }
 
 </script>
