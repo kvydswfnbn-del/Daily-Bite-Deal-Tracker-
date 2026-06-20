@@ -107,6 +107,35 @@ header {
 .nav button.active {
   color: var(--text);
 }
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.day-cell {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  min-height: 60px;
+  padding: 6px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.day-num {
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.badge {
+  margin-top: 4px;
+  font-size: 10px;
+  color: var(--green);
+}
+
 </style>
 </head>
 
@@ -122,8 +151,9 @@ header {
 
 <!-- PAGE 2: CALENDAR -->
 <div id="page-calendar" class="page">
-  <h3>Food Calendar</h3>
-  <div id="calendar"></div>
+  <h3>June Food Calendar</h3>
+
+  <div id="calendarGrid"></div>
 
   <div id="calendarDetail" style="margin-top:12px"></div>
 </div>
@@ -223,14 +253,46 @@ function renderToday(){
 /* PAGE 2: CALENDAR */
 function renderCalendar(){
 
-  const container = document.getElementById("calendar");
+  const container = document.getElementById("calendarGrid");
 
-  container.innerHTML = foodDays.map(day => `
-    <div class="day" onclick="selectDate('${day.date}')">
-      <div style="font-weight:600">${day.title}</div>
-      <div class="meta">${day.date}</div>
-    </div>
-  `).join("");
+  // June has 30 days
+  const daysInJune = 30;
+
+  let html = `<div class="calendar-grid">`;
+
+  for(let day = 1; day <= daysInJune; day++){
+
+    const dateStr = `2026-06-${String(day).padStart(2,'0')}`;
+
+    const holiday = foodDays.find(d => d.date === dateStr);
+
+    const dealsForDay = deals.filter(d =>
+      d.event_type === "food_holiday" &&
+      d.event_start_date === dateStr
+    );
+
+    html += `
+      <div class="day-cell" onclick="selectDate('${dateStr}')">
+        <div class="day-num">${day}</div>
+
+        ${
+          holiday
+            ? `<div class="badge">🎉 ${holiday.title}</div>`
+            : ""
+        }
+
+        ${
+          dealsForDay.length > 0
+            ? `<div class="badge">${dealsForDay.length} deals</div>`
+            : ""
+        }
+      </div>
+    `;
+  }
+
+  html += `</div>`;
+
+  container.innerHTML = html;
 }
 
 /* CALENDAR DETAIL VIEW */
