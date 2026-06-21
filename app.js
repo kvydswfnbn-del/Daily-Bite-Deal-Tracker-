@@ -127,11 +127,7 @@ document.getElementById("dealList").innerHTML =
     list.map(deal => `
         <div class="dealCard">
             <div class="dealTop">
-                <div
-                    class="scoreBadge"
-                    style="background:${getScoreColor(deal.bite_score)}">
-                    ${deal.bite_score}
-                </div>
+                ${buildScoreRing(deal.bite_score)}
                 <div>
                     <div class="cardTitle">
                         ${deal.title}
@@ -224,11 +220,7 @@ document.getElementById("calendarDeals").innerHTML =
     matches.map(deal => `
         <div class="dealCard">
             <div class="dealTop">
-                <div
-                    class="scoreBadge"
-                    style="background:${getScoreColor(deal.bite_score)}">
-                    ${deal.bite_score}
-                </div>
+                ${buildScoreRing(deal.bite_score)}
                 <div>
                     <div class="cardTitle">
                         ${deal.title}
@@ -241,4 +233,40 @@ document.getElementById("calendarDeals").innerHTML =
         </div>
     `).join("");
 
+}
+
+function buildScoreRing(score) {
+    const radius = 24;
+    const circumference = 2 * Math.PI * radius;
+    const offset = circumference - (score / 100) * circumference;
+
+    const color = getScoreColor(score);
+
+    return `
+    <div class="scoreRing">
+        <svg width="56" height="56">
+            <circle
+                cx="28"
+                cy="28"
+                r="${radius}"
+                stroke="#1f2937"
+                stroke-width="4"
+                fill="none"
+            />
+            <circle
+                cx="28"
+                cy="28"
+                r="${radius}"
+                stroke="${color}"
+                stroke-width="4"
+                fill="none"
+                stroke-linecap="round"
+                stroke-dasharray="${circumference}"
+                stroke-dashoffset="${offset}"
+                transform="rotate(-90 28 28)"
+            />
+        </svg>
+        <div class="scoreText">${score}</div>
+    </div>
+    `;
 }
