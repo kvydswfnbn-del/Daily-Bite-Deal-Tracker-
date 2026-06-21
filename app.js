@@ -4,12 +4,12 @@ let foodDays = [];
 let selectedDate = new Date();
 let selectedMonth = new Date();
 
-let selectedFilter = “All”;
+let selectedFilter = "All";
 let selectedCalendarDate = null;
 
 Promise.all([
-fetch(”./deals.json”).then(r => r.json()),
-fetch(”./food_days.json”).then(r => r.json())
+fetch("./deals.json").then(r => r.json()),
+fetch("./food_days.json").then(r => r.json())
 ])
 .then(([dealData, foodDayData]) => {
 
@@ -21,7 +21,7 @@ renderCalendar();
 
 })
 .catch(error => {
-console.error(“Failed to load data:”, error);
+console.error("Failed to load data:", error);
 });
 
 function getScoreColor(score) {
