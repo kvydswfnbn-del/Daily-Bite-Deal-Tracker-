@@ -136,9 +136,6 @@ document.getElementById("dealList").innerHTML =
                     <div class="cardTitle">
                         ${deal.title}
                     </div>
-                    <div class="scoreText">
-                        BiteScore ${deal.bite_score}
-                    </div>
                 </div>
             </div>
             <div class="cardDesc">
