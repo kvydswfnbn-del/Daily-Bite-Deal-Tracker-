@@ -7,66 +7,76 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div id="app">
-    <section id="dealsPage" class="page active">
-        <div class="header">
-            <h1>DailyBite</h1>
-            <div class="subHeader">
-                <span>Food opportunity intelligence</span>
-                <div class="scanner">
-                    <span class="scannerDot"></span>
-                    LIVE
+    <div id="app">
+
+        <section id="dealsPage" class="page active">
+            <div class="header">
+                <h1>DailyBite</h1>
+                <div class="subHeader">
+                    <span>Food opportunity intelligence</span>
+                    <div class="scanner">
+                        <span class="scannerDot"></span>
+                        LIVE
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="controls">
-            <div class="dateNav">
-                <button class="arrowBtn" onclick="shiftDate(-1)">‹</button>
-                <div id="dateLabel"></div>
-                <button class="arrowBtn" onclick="shiftDate(1)">›</button>
+
+            <div class="controls">
+                <div class="dateNav">
+                    <button class="arrowBtn" onclick="shiftDate(-1)">‹</button>
+                    <div id="dateLabel"></div>
+                    <button class="arrowBtn" onclick="shiftDate(1)">›</button>
+                </div>
             </div>
-        </div>
-        <div id="filters" class="filters"></div>
-        <div id="dealList"></div>
-</section>
 
-    <section id="calendarPage" class="page">
-        <div class="header">
-            <h1>Food Calendar</h1>
-        </div>
-        <div class="monthNav">
-            <button class="arrowBtn" onclick="shiftMonth(-1)">‹</button>
-            <div id="monthLabel"></div>
-            <button class="arrowBtn" onclick="shiftMonth(1)">›</button>
-        </div>
-        <div id="weekdays" class="weekdays"></div>
-        <div id="calendarGrid" class="calendarGrid"></div>
-    </section>
+            <div id="filters" class="filters"></div>
+            <div id="dealList"></div>
+        </section>
 
-    <section id="settingsPage" class="page">
-        <div class="header">
-            <h1>Settings</h1>
-        </div>
-        <div class="settingsCard">
-            Coming Soon
-        </div>
-    </section>
-</div>
+        <section id="calendarPage" class="page">
+            <div class="header">
+                <h1>Food Calendar</h1>
+            </div>
 
-<nav class="bottomNav">
-    <button class="navButton active" onclick="showPage('dealsPage',this)">
-        <span>🏷️</span>
-        Deals
-    </button>
-    <button class="navButton" onclick="showPage('calendarPage',this)">
-        <span>🗓️</span>
-        Calendar
-    </button>
-    <button class="navButton" onclick="showPage('settingsPage',this)">
-        <span>⚙</span>
-        Settings
-    </button>
-</nav>
-<script src="app.js"></script>
+            <div class="monthNav">
+                <button class="arrowBtn" onclick="shiftMonth(-1)">‹</button>
+                <div id="monthLabel"></div>
+                <button class="arrowBtn" onclick="shiftMonth(1)">›</button>
+            </div>
+
+            <div id="weekdays" class="weekdays"></div>
+            <div id="calendarGrid" class="calendarGrid"></div>
+        </section>
+
+        <section id="settingsPage" class="page">
+            <div class="header">
+                <h1>Settings</h1>
+            </div>
+
+            <div class="settingsCard">
+                Coming Soon
+            </div>
+        </section>
+
+    </div>
+
+    <nav class="bottomNav">
+        <button class="navButton active" onclick="showPage('dealsPage', this)">
+            <span>🏷️</span>
+            Deals
+        </button>
+
+        <button class="navButton" onclick="showPage('calendarPage', this)">
+            <span>🗓️</span>
+            Calendar
+        </button>
+
+        <button class="navButton" onclick="showPage('settingsPage', this)">
+            <span>⚙</span>
+            Settings
+        </button>
+    </nav>
+
+    <script src="app.js"></script>
 </body>
 </html>
