@@ -319,3 +319,22 @@ border-radius:20px;
     color:var(--muted);
     font-size:13px;
 }
+
+.scoreRing{
+    position:relative;
+    width:56px;
+    height:56px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.scoreRing svg{
+    position:absolute;
+}
+
+.scoreText{
+    position:absolute;
+    font-size:14px;
+    font-weight:800;
+}
