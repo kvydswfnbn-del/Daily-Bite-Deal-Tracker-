@@ -4,256 +4,244 @@ let foodDays = [];
 let selectedDate = new Date();
 let selectedMonth = new Date();
 
-let selectedFilter = "All";
+let selectedFilter = “All”;
 let selectedCalendarDate = null;
 
-function getScoreColor(score){
-    if(score === 100){
-        return "#F5C542"; // Gold
-    }
-    if(score >= 90){
-        return "#22C55E"; // Green
-    }
-    if(score >= 70){
-        return "#F59E0B"; // Orange
-    }
-    return "#EF4444"; // Red
-}
-
-function buildScoreRing(score){
-    const radius = 46;
-    const circumference = 2 * Math.PI * radius;
-    const fill =
-        circumference * (score / 100);
-    const color =
-        getScoreColor(score);
-    return `
-        <svg
-            width="120"
-            height="120"
-            viewBox="0 0 120 120">
-            <circle
-                cx="60"
-                cy="60"
-                r="${radius}"
-                stroke="#30363d"
-                stroke-width="10"
-                fill="none"/>
-            <circle
-                cx="60"
-                cy="60"
-                r="${radius}"
-                stroke="${color}"
-                stroke-width="10"
-                fill="none"
-                stroke-linecap="round"
-                stroke-dasharray="${fill} ${circumference}"
-                transform="rotate(-90 60 60)"/>
-            <text
-                x="60"
-                y="68"
-                text-anchor="middle"
-                class="scoreNumber">
-                ${score}
-            </text>
-        </svg>
-    `;
-}
-
 Promise.all([
-fetch("./deals.json").then(r=>r.json()),
-fetch("./food_days.json").then(r=>r.json())
-]).then(([d,f])=>{
+fetch(”./deals.json”).then(r => r.json()),
+fetch(”./food_days.json”).then(r => r.json())
+])
+.then(([dealData, foodDayData]) => {
 
-deals=d;
-foodDays=f;
-
+deals = dealData;
+foodDays = foodDayData;
 renderFilters();
 renderDeals();
 renderCalendar();
 
+})
+.catch(error => {
+console.error(“Failed to load data:”, error);
 });
 
-function showPage(page,btn){
+function getScoreColor(score) {
 
-document
-.querySelectorAll(".page")
-.forEach(x=>x.classList.remove("active"));
+if (score === 100) return "#F5C542";
+if (score >= 90) return "#22C55E";
+if (score >= 70) return "#F59E0B";
+return "#EF4444";
 
-document
-.querySelectorAll(".navButton")
-.forEach(x=>x.classList.remove("active"));
-
-document
-.getElementById(page)
-.classList.add("active");
-
-btn.classList.add("active");
 }
 
-function shiftDate(days){
+function showPage(pageId, button) {
+
+document
+    .querySelectorAll(".page")
+    .forEach(page => page.classList.remove("active"));
+document
+    .querySelectorAll(".navButton")
+    .forEach(btn => btn.classList.remove("active"));
+document
+    .getElementById(pageId)
+    .classList.add("active");
+button.classList.add("active");
+
+}
+
+function shiftDate(days) {
 
 selectedDate.setDate(
-selectedDate.getDate()+days
+    selectedDate.getDate() + days
 );
-
 renderDeals();
+
 }
 
-function shiftMonth(months){
+function shiftMonth(months) {
 
 selectedMonth.setMonth(
-selectedMonth.getMonth()+months
+    selectedMonth.getMonth() + months
 );
-
 renderCalendar();
+
 }
 
-function renderFilters(){
+function renderFilters() {
 
-const filters=["All","100","90+","70+"];
+const filters = [
+    "All",
+    "100",
+    "90+",
+    "70+"
+];
+document.getElementById("filters").innerHTML =
+    filters.map(filter => `
+        <button
+            class="filter ${selectedFilter === filter ? "active" : ""}"
+            onclick="setFilter('${filter}')">
+            ${filter}
+        </button>
+    `).join("");
 
-document.getElementById("filters").innerHTML=
-filters.map(f=>`
-<button class="filter ${selectedFilter===f?'active':''}" onclick="setFilter('${f}')">
-${f}
-</button>
-`).join("");
 }
 
-function setFilter(f){
+function setFilter(filter) {
 
-selectedFilter=f;
-
+selectedFilter = filter;
 renderFilters();
 renderDeals();
+
 }
 
-function renderDeals(){
+function renderDeals() {
 
 document.getElementById("dateLabel").innerText =
-selectedDate.toDateString();
-
+    selectedDate.toDateString();
 const dateString =
-selectedDate.toISOString().split("T")[0];
-
-// Strictly pull only matching single-day deals
-let list = deals.filter(
-    d => d.event_start_date === dateString
+    selectedDate.toISOString().split("T")[0];
+let list =
+    deals.filter(
+        deal => deal.event_start_date === dateString
+    );
+if (selectedFilter === "100") {
+    list = list.filter(d => d.bite_score === 100);
+}
+if (selectedFilter === "90+") {
+    list = list.filter(d => d.bite_score >= 90);
+}
+if (selectedFilter === "70+") {
+    list = list.filter(d => d.bite_score >= 70);
+}
+list.sort(
+    (a, b) => b.bite_score - a.bite_score
 );
-
-if(selectedFilter==="100")
-list=list.filter(x=>x.bite_score===100);
-
-if(selectedFilter==="90+")
-list=list.filter(x=>x.bite_score>=90);
-
-if(selectedFilter==="70+")
-list=list.filter(x=>x.bite_score>=70);
-
-list.sort((a,b)=>b.bite_score-a.bite_score);
-
-document.getElementById("dealList").innerHTML=
-list.map(d=>`
-<div class="card" style="border-left-color:${getScoreColor(d.bite_score)}">
-<div class="scoreWrap">
-${buildScoreRing(d.bite_score)}
-</div>
-<div>
-<div class="cardTitle">
-${d.title}
-</div>
-<div class="cardDesc">
-${d.description}
-</div>
-<button class="sourceBtn">
-View Source
-</button>
-</div>
-</div>
-`).join("");
+if (list.length === 0) {
+    document.getElementById("dealList").innerHTML = `
+        <div class="settingsCard">
+            No deals found for this date.
+        </div>
+    `;
+    return;
 }
-
-function renderCalendar(){
-
-const weekdays=
-["S","M","T","W","T","F","S"];
-
-document.getElementById("weekdays").innerHTML=
-weekdays.map(x=>`<div>${x}</div>`).join("");
-
-document.getElementById("monthLabel").innerText=
-selectedMonth.toLocaleString(
-"default",
-{
-month:"long",
-year:"numeric"
-}
-);
-
-const year=
-selectedMonth.getFullYear();
-
-const month=
-selectedMonth.getMonth();
-
-const first=
-new Date(year,month,1).getDay();
-
-const totalDays=
-new Date(year,month+1,0).getDate();
-
-let html="";
-
-for(let i=0;i<first;i++)
-html+="<div></div>";
-
-for(let day=1;day<=totalDays;day++){
-
-const date=
-`${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-
-// Check if this loop day is the currently selected calendar day
-const isSelected = date === selectedCalendarDate ? "selected" : "";
-
-html+=`
-<div
-class="day ${isSelected}"
-onclick="selectDay('${date}')">
-<div>${day}</div>
-</div>
-`;
+document.getElementById("dealList").innerHTML =
+    list.map(deal => `
+        <div class="dealCard">
+            <div class="dealTop">
+                <div
+                    class="scoreBadge"
+                    style="background:${getScoreColor(deal.bite_score)}">
+                    ${deal.bite_score}
+                </div>
+                <div>
+                    <div class="cardTitle">
+                        ${deal.title}
+                    </div>
+                    <div class="scoreText">
+                        BiteScore ${deal.bite_score}
+                    </div>
+                </div>
+            </div>
+            <div class="cardDesc">
+                ${deal.description || ""}
+            </div>
+            <button class="sourceBtn">
+                View Source
+            </button>
+        </div>
+    `).join("");
 
 }
 
-document.getElementById("calendarGrid").innerHTML=html;
+function renderCalendar() {
 
-function selectDay(date){
+const weekdays = [
+    "S",
+    "M",
+    "T",
+    "W",
+    "T",
+    "F",
+    "S"
+];
+document.getElementById("weekdays").innerHTML =
+    weekdays
+        .map(day => `<div>${day}</div>`)
+        .join("");
+document.getElementById("monthLabel").innerText =
+    selectedMonth.toLocaleString(
+        "default",
+        {
+            month: "long",
+            year: "numeric"
+        }
+    );
+const year =
+    selectedMonth.getFullYear();
+const month =
+    selectedMonth.getMonth();
+const firstDay =
+    new Date(year, month, 1).getDay();
+const totalDays =
+    new Date(year, month + 1, 0).getDate();
+let html = "";
+for (let i = 0; i < firstDay; i++) {
+    html += "<div></div>";
+}
+for (let day = 1; day <= totalDays; day++) {
+    const date =
+        `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+    const selected =
+        selectedCalendarDate === date
+            ? "selected"
+            : "";
+    html += `
+        <div
+            class="day ${selected}"
+            onclick="selectDay('${date}')">
+            <div>${day}</div>
+        </div>
+    `;
+}
+document.getElementById("calendarGrid").innerHTML =
+    html;
 
-selectedCalendarDate=date;
+}
 
-// Re-render calendar so the new selected day receives the 'selected' class highlight
+function selectDay(date) {
+
+selectedCalendarDate = date;
 renderCalendar();
+const matches =
+    deals.filter(
+        deal => deal.event_start_date === date
+    );
+if (matches.length === 0) {
+    document.getElementById("calendarDeals").innerHTML = `
+        <div class="settingsCard">
+            No food events on this date.
+        </div>
+    `;
+    return;
+}
+document.getElementById("calendarDeals").innerHTML =
+    matches.map(deal => `
+        <div class="dealCard">
+            <div class="dealTop">
+                <div
+                    class="scoreBadge"
+                    style="background:${getScoreColor(deal.bite_score)}">
+                    ${deal.bite_score}
+                </div>
+                <div>
+                    <div class="cardTitle">
+                        ${deal.title}
+                    </div>
+                </div>
+            </div>
+            <div class="cardDesc">
+                ${deal.description || ""}
+            </div>
+        </div>
+    `).join("");
 
-const matches=
-deals.filter(
-d=>d.event_start_date===date
-);
-
-document.getElementById("calendarDeals").innerHTML=
-matches.map(d=>`
-<div class="card" style="border-left-color:${getScoreColor(d.bite_score)}">
-<div class="scoreWrap">
-${buildScoreRing(d.bite_score)}
-</div>
-<div>
-<div class="cardTitle">
-${d.title}
-</div>
-<div class="cardDesc">
-${d.description}
-</div>
-</div>
-</div>
-`).join("");
 }
