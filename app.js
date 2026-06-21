@@ -70,9 +70,10 @@ function renderFilters() {
 
 const filters = [
     "All",
-    "100",
-    "90+",
-    "70+"
+    "Top Rated",
+    "Great Deals",
+    "Good Deals"
+    "Freebies"
 ];
 document.getElementById("filters").innerHTML =
     filters.map(filter => `
@@ -103,13 +104,13 @@ let list =
     deals.filter(
         deal => deal.event_start_date === dateString
     );
-if (selectedFilter === "100") {
+if (selectedFilter === "Top Rated") {
     list = list.filter(d => d.bite_score === 100);
 }
-if (selectedFilter === "90+") {
+if (selectedFilter === "Great Deals") {
     list = list.filter(d => d.bite_score >= 90);
 }
-if (selectedFilter === "70+") {
+if (selectedFilter === "Good Deals") {
     list = list.filter(d => d.bite_score >= 70);
 }
 list.sort(
