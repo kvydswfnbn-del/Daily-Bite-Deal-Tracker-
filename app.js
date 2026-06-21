@@ -72,7 +72,7 @@ const filters = [
     "All",
     "Top Rated",
     "Great Deals",
-    "Good Deals"
+    "Good Deals",
     "Freebies"
 ];
 document.getElementById("filters").innerHTML =
